@@ -1,0 +1,45 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-neutral: white;
+  --color-neutral-opposite: oklch(96.7% 0.001 286.375);
+  --color-lighter: oklch(86.9% 0.022 252.894);
+  --color-lighter2: oklch(94.554% 0.00879 264.609);
+  --color-faded: oklch(72.752% 0.02949 248.301);
+  --color-text: oklch(37% 0.013 285.805);
+  --color-success: oklch(67.705% 0.18576 146.19);
+  --color-warning: oklch(81.169% 0.1415 93.66);
+  --color-error: oklch(58.283% 0.21487 27.117);
+  --color-shadow: rgba(0, 0, 0, 0.2);
+}
+
+@media (prefers-color-scheme: dark) {
+  @theme {
+    --color-neutral: oklch(21% 0.006 285.885);
+    --color-neutral-opposite: black;
+    --color-lighter: oklch(38.197% 0.04164 255.447);
+    --color-lighter2: oklch(28.585% 0.04005 256.253);
+    --color-faded: oklch(27.952% 0.05181 257.926);
+    --color-text: oklch(92% 0.004 286.32);
+    --color-success: oklch(55.999% 0.14402 146.791);
+    --color-warning: oklch(67.793% 0.10724 93.393);
+    --color-error: oklch(61.674% 0.18128 24.11);
+    --color-shadow: rgb(0, 0, 0);
+  }
+}
+
+html,
+body {
+  margin: 0;
+  background: var(--color-neutral);
+  color: var(--color-text);
+  font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+  color-scheme: light dark;
+}
+
+#root {
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
