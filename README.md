@@ -1,75 +1,40 @@
-# React + TypeScript + Vite
+# Mini Wordle
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A standalone single-page Wordle clone. Originally built as a component inside my [portfolio](https://github.com/AnnieSzeto/portfolio); extracted here as its own Vite + React app.
 
-Currently, two official plugins are available:
+## Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Vite + React 19 (with the React Compiler enabled)
+- TypeScript
+- Tailwind CSS v4 (via `@tailwindcss/vite`)
+- [nanostores](https://github.com/nanostores/nanostores) with `persistentMap` — game state survives reloads via `localStorage`
 
-## React Compiler
+## How it works
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+- A random 5-letter word is picked from `src/stores/words_alpha.txt` on first load (and on each reset).
+- 6 guesses; each guess is graded letter-by-letter (correct / close / incorrect) with the same logic as Wordle, accounting for repeated letters.
+- The on-screen keyboard mirrors the per-letter state.
+- Game state (current row, previous guesses, keyboard colours) is persisted, so a refresh keeps your progress.
 
-Note: This will impact Vite dev & build performances.
+## Running
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```sh
+npm install
+npm run dev      # http://localhost:5173
+npm run build    # tsc -b && vite build
+npm run preview  # serve the production build
+npm run lint
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Layout
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 ```
+src/
+  components/      Wordle, WordleLine, WordleBox, WordleKeyboard, GameOverModal
+                   types.ts, errors.ts, wordle.css
+  stores/          nanostores wordle store + words_alpha.txt
+  index.css        Tailwind theme tokens + base styles
+  main.tsx
+```
+
+Path aliases `@stores/*` and `@components/*` are configured in `vite.config.ts` and mirrored in `tsconfig.app.json`.
